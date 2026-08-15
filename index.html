@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -2614,13 +2614,30 @@
                         WhatsApp</a>
                 </div>
                 <div class="contact-form reveal reveal-delay-3">
-                    <form id="contactForm">
-                        <input type="text" placeholder="Your Name" required>
-                        <input type="email" placeholder="Your Email" required>
-                        <input type="text" placeholder="Subject">
-                        <textarea placeholder="Your Message" required></textarea>
-                        <button type="submit" class="btn-submit">Send Message ✦</button>
-                    </form>
+                     <form id="contactForm">
+      <!-- Name -->
+      <div class="input-group">
+        <input type="text" placeholder="Your Name" required />
+      </div>
+      <!-- Email -->
+      <div class="input-group">
+        <input type="email" placeholder="Your Email" required />
+      </div>
+      <!-- Subject -->
+      <div class="input-group">
+        <input type="text" placeholder="Subject" />
+      </div>
+      <!-- Message -->
+      <div class="input-group">
+        <textarea placeholder="Your Message" required></textarea>
+      </div>
+      <!-- Submit -->
+      <button type="submit" class="btn-submit">
+        <span>Send Message</span>
+        <span class="icon-send">✦</span>
+      </button>
+    </form>
+
                 </div>
             </div>
         </section>
@@ -2633,7 +2650,7 @@
                     <div class="footer-social">
                         <a href="https://www.linkedin.com/in/rubanroy028" target="_blank" rel="noopener"
                             aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
-                        <a href="https://github.com/rubanroy028" target="_blank" rel="noopener" aria-label="GitHub"><i
+                        <a href="https://github.com/rubanroy028-oss" target="_blank" rel="noopener" aria-label="GitHub"><i
                                 class="fab fa-github"></i></a>
                         <a href="https://wa.me/919360557141" target="_blank" rel="noopener" aria-label="WhatsApp"><i
                                 class="fab fa-whatsapp"></i></a>
@@ -3084,6 +3101,120 @@
         console.log('%cCloud Engineer · AI Enthusiast · Full Stack Developer', 'font-size:1rem;color:#b0b0c0;');
         console.log('%cCrafted with passion and precision.', 'font-size:0.9rem;color:#d4af37;font-style:italic;');
     </script>
+
+
+
+
+ <script>
+    (function() {
+      const form = document.getElementById('contactForm');
+      const feedback = document.getElementById('formFeedback');
+
+      // helper to show toast
+      function showFeedback(message, type = 'success') {
+        feedback.textContent = message;
+        feedback.className = 'toast-message ' + type;
+        // auto-hide after 5s (but keep visible if error)
+        if (type === 'success') {
+          setTimeout(() => {
+            feedback.className = 'toast-message';
+            feedback.textContent = '';
+          }, 5500);
+        }
+      }
+
+      // WEB3 STYLE: simulate "transaction" / "signature" feel
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        // collect values (with trimming)
+        const nameInput = form.querySelector('input[placeholder="Your Name"]');
+        const emailInput = form.querySelector('input[placeholder="Your Email"]');
+        const subjectInput = form.querySelector('input[placeholder="Subject"]');
+        const messageInput = form.querySelector('textarea[placeholder="Your Message"]');
+
+        const name = nameInput.value.trim();
+        const email = emailInput.value.trim();
+        const subject = subjectInput.value.trim();
+        const message = messageInput.value.trim();
+
+        // basic validation (html5 required already, but extra check)
+        if (!name || !email || !message) {
+          showFeedback('✧ Please fill in all required fields (Name, Email, Message)', 'error');
+          // shake effect (optional)
+          form.style.animation = 'shake 0.3s ease';
+          setTimeout(() => form.style.animation = '', 400);
+          return;
+        }
+
+        // simple email format check (additional)
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailPattern.test(email)) {
+          showFeedback('✧ Please enter a valid email address', 'error');
+          return;
+        }
+
+        // ---- WEB3 SIMULATION ----
+        // visual feedback: "sending" state
+        const btn = form.querySelector('.btn-submit');
+        const originalText = btn.innerHTML;
+        btn.innerHTML = `<span>Signing...</span><span class="icon-send">⧗</span>`;
+        btn.disabled = true;
+        btn.style.opacity = '0.8';
+
+        // Simulate web3 transaction / async call (like MetaMask)
+        setTimeout(() => {
+          // success ! (you can replace with real web3 logic)
+          const successMsg = `✧ Message sent! (${subject ? subject : 'no subject'}) — Web3 signature verified.`;
+          showFeedback(successMsg, 'success');
+
+          // reset button
+          btn.innerHTML = originalText;
+          btn.disabled = false;
+          btn.style.opacity = '1';
+
+          // (optional) clear fields after success – but we keep them, just placeholder reset? 
+          // we keep as is, but you could reset: form.reset(); 
+          // but we want to keep web3 "transaction" style – let's keep values.
+          // but we can also clear after 2s? let's keep for demo.
+          // Uncomment next line if you want to reset form after success:
+          // form.reset();
+
+          // extra: small animation on feedback
+          feedback.style.animation = 'none';
+          setTimeout(() => feedback.style.animation = 'fadeSlide 0.4s ease', 10);
+
+        }, 1500); // simulate block time
+      });
+
+      // Inject shake keyframe if not exists
+      if (!document.getElementById('shakeStyle')) {
+        const styleShake = document.createElement('style');
+        styleShake.id = 'shakeStyle';
+        styleShake.textContent = `
+          @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20% { transform: translateX(-8px); }
+            40% { transform: translateX(8px); }
+            60% { transform: translateX(-6px); }
+            80% { transform: translateX(6px); }
+          }
+        `;
+        document.head.appendChild(styleShake);
+      }
+
+      // extra: if user focuses any input, hide feedback (optional)
+      const inputs = form.querySelectorAll('input, textarea');
+      inputs.forEach(input => {
+        input.addEventListener('focus', function() {
+          feedback.className = 'toast-message';
+          feedback.textContent = '';
+        });
+      });
+
+    })();
+  </script>
+
 
 </body>
 
